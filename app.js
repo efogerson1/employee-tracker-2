@@ -136,49 +136,50 @@ function addDepartment() {
     });
 }
 
-// Function to add a role
+// function to add a role
 function addRole() {
-  // Fetch the list of departments for the prompt
-  connection.query('SELECT * FROM departments', (err, results) => {
-    if (err) throw err;
-
-    const departmentChoices = results.map((department) => ({
-      name: department.name,
-      value: department.id,
-    }));
-
-
-  inquirer
-    .prompt([
-      {
-        name: 'roleTitle',
-        type: 'input',
-        message: 'Enter the title of the role:',
-      },
-      {
-        name: 'roleSalary',
-        type: 'input',
-        message: 'Enter the salary for this role:',
-      },
-      {
-        name: 'departmentId',
-        type: 'input',
-        message: 'Enter the department id for this role:',
-      },
-    ])
-    .then((answers) => {
-      connection.query(
-        'INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)',
-        [answers.roleTitle, answers.roleSalary, answers.departmentId],
-        (err) => {
-          if (err) throw err;
-          console.log('Role added successfully.');
-          startApp();
-        }
-      );
+    // get the list of departments for the prompt
+    connection.query('SELECT * FROM departments', (err, results) => {
+      if (err) throw err;
+  
+      const departmentChoices = results.map((department) => ({
+        name: department.name,
+        value: department.id, // Make sure the value is the department ID, not the department name
+      }));
+  
+      inquirer
+        .prompt([
+          {
+            name: 'roleTitle',
+            type: 'input',
+            message: 'Enter the title of the role:',
+          },
+          {
+            name: 'roleSalary',
+            type: 'input',
+            message: 'Enter the salary for this role:',
+          },
+          {
+            name: 'departmentId',
+            type: 'list',
+            message: 'Select the department for this role:',
+            choices: departmentChoices, // The `departmentChoices` array is used here as choices
+          },
+        ])
+        .then((answers) => {
+          connection.query(
+            'INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)',
+            [answers.roleTitle, answers.roleSalary, answers.departmentId],
+            (err) => {
+              if (err) throw err;
+              console.log('Role added successfully.');
+              startApp();
+            }
+          );
+        });
     });
-});
-}
+  }
+  
 
 // Function to add an employee
 function addEmployee() {
