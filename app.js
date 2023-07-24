@@ -182,7 +182,9 @@ function addRole() {
   
 
 // Function to add an employee
-function addEmployee() {
+
+
+ function addEmployee() {
   inquirer
     .prompt([
       {
