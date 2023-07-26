@@ -163,7 +163,7 @@ function addRole() {
             name: 'departmentId',
             type: 'list',
             message: 'Select the department for this role:',
-            choices: departmentChoices, // The `departmentChoices` array is used here as choices
+            choices: departmentChoices, // `departmentChoices` array is used here as choices
           },
         ])
         .then((answers) => {
